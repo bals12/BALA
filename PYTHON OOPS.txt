@@ -1,0 +1,259 @@
+				OOPS CONCEPTS IN PYTHON
+
+1)Creating class and instance(object) in python
+
+class Employee:
+    name='bala'
+    age = 25
+    city = 'erode'
+em=Employee()  #object in class
+em.name    # acessing variable in class with using  object or instance name
+em.age
+
+-------------------------------------------------------------------------------------------------------------
+2)Function using in class
+
+class Customer:
+    bank='iob'
+    branch='erode'
+    print("generic data")
+    def person(self,name):
+        self.name = name
+        print("specific data")
+        print(name)
+cu = Customer()
+print(Customer.bank)
+cu.person('bala')
+
+
+o/p:
+
+generic data
+iob
+specific data
+bala
+
+
+------------------------------------------------------------------------------------------------------------------
+
+3)Constructor with arguments
+
+class Demo():
+    a=10
+    def __init__(self,x,y):
+        self.x=x
+        self.y=y
+du=Demo(30,40)
+print(du.x)
+print(du.y)
+print(du.a)
+
+--------------------------------------------------------------------------------------------------------------
+
+4)Constructor without argument(non-parameterised constructor)
+
+class Demo():
+    def __init__(self):
+        print("hi to all")
+Demo()
+
+----------------------------------------------------------------------------------------------------------------
+
+5)with constructor
+
+class Employee:
+    def __init__(self,name,age):
+        self.name = name
+        self.age = age
+        print(name,age)
+em=Employee('bala',26)
+em()
+
+--------------------------------------------------------------------------------------------------------------
+6) without constructor
+
+class Employee:
+    def detail(self,name,age):   # self is default argument in class
+        print(name,age)
+em=Employee()
+em.detail('bala',26)
+
+---------------------------------------------------------------------------------------------------------------
+7) using constructor with arguments
+
+class Car:
+    def __init__(self,brand,year):
+        self.brand=brand
+        self.year=year
+    def display(self):
+        print(self.brand,self.year)
+ca=Car('maruthi',2000)
+ca.display()
+------------------------------------------------------------------------------------------------------------------
+8) Non parametrerised constructor
+
+class Student:
+    def __init__(self):
+        print("it is non parametrised constructor")
+    def detail(self,name):
+        print(name)
+st=Student()
+st.detail("bala")
+
+---------------------------------------------------------------------------------------------------------------
+
+9)Parametrised constructor
+
+class Student:
+    def __init__(self,name):
+        print("parametrised constructor")
+        self.name=name
+    def detail(self):
+        print(self.name)
+st=Student("bala")
+st.detail()
+
+---------------------------------------------------------------------------------------------------------------
+
+10)Default constructor
+
+class Student:
+    name='bala'
+    print("default constructor")
+    def detail(self):
+        print(self.name)
+st=Student()
+st.detail()
+
+---------------------------------------------------------------------------------------------------------------
+
+11)multiple constructor in single class
+
+class Student:
+    def __init__(self):
+        print("first constructor")
+    def __init__(self):
+        print("second constructor")
+    def __init__(self):
+        print("third constructor")
+    
+st=Student()
+
+Note: In python constructor overloading is not allowed, 
+so only object st called third constructor(last constructor)
+
+-------------------------------------------------------------------------------------------------------------
+
+12)print result as dictionary in class
+
+class Car:
+    def __init__(self,brand,year):
+        self.brand=brand
+        self.year=year
+    def display(self):
+        print("Brand:%s\nyear:%d"%(self.brand,self.year))
+ca=Car('maruthi',2000)
+ca1=Car('hundai',2010)
+ca.display()
+ca1.display()
+print(ca.__dict__)
+print(ca1.__dict__)  #to display data as dictionary
+
+---------------------------------------------------------------------------------------------------------------
+13)Single inheritence
+
+class A:  #parent class
+    a=10
+class B(A):#child class
+    b=20
+print(A.a)  
+print(B.a)  #accessing parent class attributes by child class
+print(B.b)
+
+--------------------------------------------------------------------------------------------------------------
+
+14)Calculator programming in python using OOPS
+
+class Calculator:
+
+class Calculator:
+    def __init__(self,a,b):
+        self.a=a
+        self.b=b
+    def sum(self):
+        print(self.a+self.b)
+    def mul(self):
+        print(self.a*self.b)
+ca = Calculator(10,20)
+ca.sum()
+ca.mul()
+
+-------------------------------------------------------------------------------------------------------------
+
+15) Bank transaction in python using OOPS
+
+class Bank:
+    Bank_name = 'sbi'
+    def __init__(self,name,balance):
+        self.name=name
+        self.balance=balance
+        self.transaction=[]
+        self.transaction.append(f"***opening balance is {balance}***")
+    def deposit(self,amount):
+        self.balance+=amount
+        self.transaction.append(f'deposited amount of {amount} and current balance is {self.balance}')
+    def withdraw(self,amount):
+        if amount>self.balance:
+            print("insuficient balance")
+            
+        else:
+            self.balance=self.balance-amount
+            self.transaction.append(f'withdraw amount is {amount} and balance is {self.balance}')
+            print(f"please collect cash of {amount}")
+
+ba = Bank('bala',20000)
+print(ba.Bank_name)
+print(ba.balance)
+ba.deposit(5000)
+print(ba.balance)
+ba.withdraw(2000)
+print(ba.balance)
+print(ba.__dict__)    #Display as a dictionary by using built in function of class
+
+
+
+O/P:
+
+sbi
+20000
+25000
+please collect cash of 2000
+23000
+{'name': 'bala', 'balance': 23000, 'transaction': ['***opening balance is 20000***', 
+'deposited amount of 5000 and current balance is 25000', 'withdraw amount is 2000 and balance is 23000']}
+
+---------------------------------------------------------------------------------------------------------------
+
+15)chain constructor in inheritence
+
+class Demo:
+    def __init__(self):
+        print("a")
+class Demoo(Demo):
+    def __init__(self):
+        Demo.__init__(self)
+        print("b")
+obj = Demoo()
+
+--------------------------------------------------------------------------------------------------------------
+
+
+    
+
+
+
+
+
+
+
+
