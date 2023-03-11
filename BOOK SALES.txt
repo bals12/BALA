@@ -1,0 +1,166 @@
+
+SOME SQL QUERY ARE WRITTING BASED ON SENERIO OF BOOK SALES CONCEPTS
+
+
+
+----JOIN QUERY
+
+1)DISPLAY PUBLISHER NAME, BOOK NAME, AUTHOUR FIRST NAME BY USING SQL QUERY
+
+
+SELECT PUB_NAME, BOOK.BOOK_NM, AUTHOR.AUTH_FIRST_NAME
+FROM PUBLISHER INNER JOIN BOOK ON PUBLISHER.PUB_ID = BOOK.PUB_ID
+               INNER JOIN BOOK_AUTHOR ON BOOK.BOOK_ID = BOOK_AUTHOR.BOOK_ID
+               INNER JOIN AUTHOR ON BOOK_AUTHOR.AUTH_ID = AUTHOR.AUTH_ID;
+
+----------------------------------------------------------------------------------------------------------------
+
+----SIMPLE QUERY
+
+2)DISPLAY BOOK NAME OF MRP IS RS.600
+
+SELECT BOOK_NM FROM BOOK WHERE BOOK_MRP = 600;
+---------------------------------------------------------------------------------------------------------------
+
+----SUB QUERY
+
+3)DISPLAY BOOK NAME OF MRP IS GREATER THAN BOOK OF 'QUALITIES TO BECOME GREAT' 
+
+
+SELECT BOOK_NM FROM BOOK WHERE BOOK_MRP >
+  (SELECT BOOK_MRP FROM BOOK WHERE BOOK_NM = 'Qualities to become great');
+
+---------------------------------------------------------------------------------------------------------------
+----AGGREGATE QUERY(SIMPLE)
+
+4) FINDING TOTAL QUANTITY OF BOOK IN EACH STORE AND ARRANGE IT IN STOREWISE AS RESULT 
+
+SELECT STORE_ID, SUM(QTY) 
+FROM STORE_ORDER
+GROUP BY STORE_ID
+ORDER BY STORE_ID;
+
+--------------------------------------------------------------------------------------------------------------
+
+------AGGREGATE QUERY(JOIN)
+
+5) DISPLAY BOOK ID, BOOK NAME, TOTAL QUANTITY OF STORE ORDER WAS GIVEN IN THIS SENERIO 
+AND ARRANGE INCREASING ORDER OF TOTAL QUANTITY.
+
+SELECT BOOK.BOOK_ID, BOOK_NM, SUM(QTY) AS TOT_QTY
+FROM BOOK INNER JOIN STORE_ORDER ON BOOK.BOOK_ID = STORE_ORDER.BOOK_ID
+GROUP BY BOOK.BOOK_ID, BOOK_NM
+ORDER BY TOT_QTY ASC;
+
+---------------------------------------------------------------------------------------------------------------
+----AGGREGATE QUERY(SIMPLE)
+
+6) DISPLAY THE MAXIMUM QUANTITY OF BOOKS IN EACH STORE
+
+SELECT STORE_ID, MAX(QTY)
+FROM STORE_ORDER
+GROUP BY STORE_ID;
+
+---------------------------------------------------------------------------------------------------------------
+
+-----AGGREGATE QUERY(SIMPLE)
+
+6) DISPLAY THE AVERAGE QUANTITY OF BOOKS IN EACH STORE
+
+SELECT STORE_ID, ROUND(AVG(QTY),0)
+FROM STORE_ORDER
+GROUP BY STORE_ID;
+
+---------------------------------------------------------------------------------------------------------------
+
+-----AGGREGATE QUERY(SIMPLE)
+
+7)DISPLAY THE MINIMUM QUANTITY OF BOOKS IN EACH STORE
+
+SELECT STORE_ID, MIN(QTY)
+FROM STORE_ORDER
+GROUP BY STORE_ID;
+
+----------------------------------------------------------------------------------------------------------------
+
+-----AGGREGATE QUERY(SIMPLE)
+
+7)DISPLAY THE MAXIMUM QUANTITY OF BOOKS IN EACH STORE
+
+SELECT STORE_ID, MAX(QTY)
+FROM STORE_ORDER
+GROUP BY STORE_ID
+
+---------------------------------------------------------------------------------------------------------------
+
+------DERIVED TABLE QUERY WITH ANALYTICAL QUERY CONCEPTS
+
+8)WHICH BOOK HAVING STOCK OF MAXIMUM QUANTITY IN DISTRIBUTOR ORDERS?
+
+
+SELECT BOOK_NM
+FROM
+( SELECT BOOK.BOOK_ID, BOOK_NM, QTY, DENSE_RANK() OVER (ORDER BY QTY DESC) AS RANKING
+FROM BOOK INNER JOIN DIST_ORDER ON BOOK.BOOK_ID = DIST_ORDER.BOOK_ID )T1
+WHERE RANKING = 1;
+
+
+##HERE T1 IS DERIVED TABLE
+---------------------------------------------------------------------------------------------------------------
+
+------set operators
+
+9) Find store name which was not placed any orders.
+
+select store_nm from store 
+where store_id =
+
+( select store_id from store
+
+minus
+
+select store_id from store_order );
+
+--------------------------------------------------------------------------------------------------------------
+
+------ANALYTICAL QUERY
+
+10)which book having maximum profit ?													
+
+SELECT BOOK_NM
+FROM
+(SELECT DISTINCT BOOK_NM, STORE_ORDER.PRICE_OF_BOOK-DIST_ORDER.PRICE_OF_BOOK AS PROFIT, 
+    DENSE_RANK() OVER (ORDER BY STORE_ORDER.PRICE_OF_BOOK-DIST_ORDER.PRICE_OF_BOOK DESC) AS RANKING
+FROM BOOK INNER JOIN STORE_ORDER ON BOOK.BOOK_ID = STORE_ORDER.BOOK_ID
+          INNER JOIN DIST_ORDER ON BOOK.BOOK_ID = DIST_ORDER.BOOK_ID)T1
+WHERE RANKING = 1;
+
+--------------------------------------------------------------------------------------------------------------
+-------AGGREGATE QUERY
+
+11) Find the number of books from each stores
+
+
+select store_nm, count(book_id),sum(qty)
+from store inner join store_order on store.store_id = store_order.store_id
+group by store_nm
+
+--------------------------------------------------------------------------------------------------------------
+
+12) Display the store name which had no business  based on this data.
+
+---SUB QUERY
+
+select store_nm from store where store_nm not in
+(select distinct store_nm
+from store inner join store_sales on store.store_id = store_sales.store_id);
+
+---------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
